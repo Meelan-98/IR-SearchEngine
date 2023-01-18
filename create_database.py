@@ -11,7 +11,7 @@ es = Elasticsearch(
     http_auth=(config['ELASTIC']['user'], config['ELASTIC']['password'])
 )
 
-INDEX = 'sinhala-songs'
+INDEX = 'sinhala-metaphors'
 
 def createIndex():
     index = Index(INDEX,using=es)
@@ -19,7 +19,7 @@ def createIndex():
     print (res)
 
 def read_all_songs():
-    with open('summary-corpus/all_songs.json','r') as f:
+    with open('summary-corpus/data.json','r') as f:
         all_songs = json.loads(f.read())
         res_list = [i for n, i in enumerate(all_songs) if i not in all_songs[n + 1:]]
         return res_list
@@ -47,47 +47,52 @@ def clean_lyrics(lyrics):
     else:
         return None
 
+
 def genData(song_array):
     for song in song_array:
 
         # English
-        guitar_key = song.get("guitar_key",None)
-        english_lyricist = song.get("english_lyricst", None)
-        english_music = song.get("english_music", None)
-        english_artist = song.get("english_artist", None)
-
-        # Bilingual
-        title = song.get("title",None)
+        english_name = song.get("Song_Name_en", None)
+        english_lyricist = song.get("Lyricist_en", None)
+        english_composer = song.get("Composer_en", None)
+        english_singer = song.get("Singer_en", None)
 
         # Sinhala
-        artist = song.get("Artist", None)
-        genre = song.get("Genre",None)
-        lyricist = song.get("Lyrics",None)
-        music = song.get("Music",None)
-        lyrics = clean_lyrics(song.get("song_lyrics",None))
 
-        # Numbers
-        views = song.get('views',None)
+        sinhala_name = song.get("Song_Name_sn", None)
+        sinhala_lyricist = song.get("Lyricist_sn", None)
+        sinhala_composer = song.get("Composer_sn", None)
+        sinhala_singer = song.get("Singer_sn", None)
+
+        lyrics = clean_lyrics(song.get("Lyrics",None))
+
+        sinhala_meta_one = song.get("Metaphor_01", None)
+        sinhala_meta_one_meaning = song.get("Metaphor_01_meaning", None)
+
+        sinhala_meta_two = song.get("Metaphor_02", None)
+        sinhala_meta_two_meaning = song.get("Metaphor_02_meaning", None)
 
         yield {
-            "_index": "sinhala-songs",
+            "_index": "sinhala-metaphors",
             "_source": {
-                "guitar_key": guitar_key,
-                "title": title,
-                "artist": artist,
-                "genre": genre,
-                "lyrics": lyricist,
-                "music": music,
+                "english_name": english_name,
                 "english_lyricist": english_lyricist,
-                "english_music": english_music,
-                "english_artist": english_artist,
-                "views": views,
-                "song_lyrics": lyrics
+                "english_composer": english_composer,
+                "english_singer": english_singer,
+                "sinhala_name": sinhala_name,
+                "sinhala_lyricist": sinhala_lyricist,
+                "sinhala_composer": sinhala_composer,
+                "sinhala_singer": sinhala_singer,
+                "lyrics": lyrics,
+                "sinhala_meta_one": sinhala_meta_one,
+                "sinhala_meta_one_meaning": sinhala_meta_one_meaning,
+                "sinhala_meta_two": sinhala_meta_two,
+                "sinhala_meta_two_meaning": sinhala_meta_two_meaning
             },
         }
 
 
 # createIndex()
-all_songs = read_all_songs()
-helpers.bulk(es,genData(all_songs))
+# all_songs = read_all_songs()
+# helpers.bulk(es,genData(all_songs))
 

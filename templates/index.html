@@ -51,16 +51,24 @@
 		{% for hit in hits %}
 		<article class="search-result row">
 			<div class="col-md-12">
-				<h3><a href="#" title="">{{ hit._source.title }}</a></h3>
+				<h3><a href="#" title="">{{ hit._source.sinhala_name }}</a></h3>
 				<ul class="meta-search">
-					<li><i class="glyphicon glyphicon-tags"></i> <span>Genre: {{ hit._source.genre }} </span></li>
-					<li><i class="glyphicon glyphicon-tags"></i> <span>Artist: {{ hit._source.artist }}</span></li>
-					 <li><i class="glyphicon glyphicon-tags"></i> <span>Music: {{ hit._source.music }}</span></li>
-					<li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit._source.lyrics }}</span></li>
-					<li><i class="glyphicon glyphicon-tags"></i> <span>Key: {{ hit._source.guitar_key }}</span></li>
-					<li><i class="glyphicon glyphicon-tags"></i> <span>Views: {{ hit._source.views }}</span></li>
+					<li> <span> Composer: {{ hit._source.sinhala_composer }} </span></li>
+					<li> <span> Singer: {{ hit._source.sinhala_singer }}</span></li>
+					<li> <span> Lyricist: {{ hit._source.sinhala_lyricist }}</span></li>
 				</ul>
-				<p style="white-space: pre-line">{{ hit._source.song_lyrics }}</p>
+				<p style="white-space: pre-line">{{ hit._source.lyrics }}</p>
+			</div>
+			<div class="col-md-12">
+				<h5><a href="#" title=""> Metaphors </a></h5>
+				<ul class="meta-search">
+					<li> <span> Metaphor 01: {{ hit._source.sinhala_meta_one }} </span></li>
+					<li> <span> Meaning: {{ hit._source.sinhala_meta_one_meaning }}</span></li>
+				</ul>
+				<ul class="meta-search">
+					<li> <span> Metaphor 02: {{ hit._source.sinhala_meta_two }} </span></li>
+					<li> <span> Meaning: {{ hit._source.sinhala_meta_two_meaning }}</span></li>
+				</ul>
 			</div>
 			<div class="col-md-6">
 

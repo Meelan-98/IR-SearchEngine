@@ -1,52 +1,43 @@
 import json
 
-def multi_match(query, fields=['title','song_lyrics'], operator ='or'):
-	q = {
-		"query": {
-			"multi_match": {
-				"query": query,
-				"fields": fields,
-				"operator": operator,
-				"type": "best_fields"
-			}
-		}
-	}
-	return q
 
-def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='or'):
+def fuzzy_multi_match(query, fields, operator ='or'):
 	q = {
 		"size": 500,
 		"explain": True,
 		"query": {
 			"multi_match": {
-				"query": query,
-				"fields": fields,
-				"operator": operator,
-				"type": "best_fields"
+                "query": query,
+                "fields": fields,
+                "type": "best_fields", # best_fields, most_fields, cross-fields, phrase, phrase_prefix try all
+                "operator": "or",
+                #"minimum_should_match": 2, # How many terms must be included to match if the operator is or
+                "analyzer": "standard", # standard, simple, whitespace, stop, keyword, pattern, <language>, fingerprint
+                "fuzziness": "AUTO", # The number of character edits (insert, delete, substitute) to get the required term
+                "fuzzy_transpositions": True, # Allow character swaps
+                "lenient": False, # Avoid data type similarity requirement
+                "prefix_length": 0, 
+                "max_expansions": 50,
+                "auto_generate_synonyms_phrase_query": True,
+                "zero_terms_query": "none"
 			}
 		},
 		"aggs": {
-			"Genre Filter": {
+			"Singer Filter": {
 				"terms": {
-					"field": "genre.keyword",
+					"field": "sinhala_singer.keyword",
 					"size": 10
 				}
 			},
-			"Music Filter": {
+			"Composer Filter": {
 				"terms": {
-					"field": "music.keyword",
+					"field": "sinhala_composer.keyword",
 					"size": 10
 				}
 			},
-			"Artist Filter": {
+			"Lyricist Filter": {
 				"terms": {
-					"field": "artist.keyword",
-					"size": 10
-				}
-			},
-			"Lyrics Filter": {
-				"terms": {
-					"field": "lyrics.keyword",
+					"field": "sinhala_lyricist.keyword",
 					"size": 10
 				}
 			}
@@ -56,22 +47,8 @@ def agg_multi_match_q(query, fields=['title','song_lyrics'], operator ='or'):
 	q = json.dumps(q)
 	return q
 
-def agg_q():
-	q = {
-		"size": 0,
-		"aggs": {
-			"Category Filter": {
-				"terms": {
-					"field": "genre",
-					"size": 10
-				}
-			}
-		}
-	}
 
-	return q
-
-def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'], operator ='or'):
+def sorted_fuzzy_multi_match(query, sort_num, fields, operator ='or'):
 	print ('sort num is ',sort_num)
 	q = {
 		"size": sort_num,
@@ -80,34 +57,37 @@ def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'], 
 		],
 		"query": {
 			"multi_match": {
-				"query": query,
-				"fields": fields,
-				"operator": operator,
-				"type": "best_fields"
+                "query": query,
+                "fields": fields,
+                "type": "best_fields", # best_fields, most_fields, cross-fields, phrase, phrase_prefix try all
+                "operator": "or",
+                #"minimum_should_match": 2, # How many terms must be included to match if the operator is or
+                "analyzer": "standard", # standard, simple, whitespace, stop, keyword, pattern, <language>, fingerprint
+                "fuzziness": "AUTO", # The number of character edits (insert, delete, substitute) to get the required term
+                "fuzzy_transpositions": True, # Allow character swaps
+                "lenient": False, # Avoid data type similarity requirement
+                "prefix_length": 0, 
+                "max_expansions": 50,
+                "auto_generate_synonyms_phrase_query": True,
+                "zero_terms_query": "none"
 			}
 		},
 		"aggs": {
-			"Genre Filter": {
+			"Singer Filter": {
 				"terms": {
-					"field": "genre.keyword",
+					"field": "sinhala_singer.keyword",
 					"size": 10
 				}
 			},
-			"Music Filter": {
+			"Composer Filter": {
 				"terms": {
-					"field": "music.keyword",
+					"field": "sinhala_composer.keyword",
 					"size": 10
 				}
 			},
-			"Artist Filter": {
+			"Lyricist Filter": {
 				"terms": {
-					"field": "artist.keyword",
-					"size": 10
-				}
-			},
-			"Lyrics Filter": {
-				"terms": {
-					"field": "lyrics.keyword",
+					"field": "sinhala_lyricist.keyword",
 					"size": 10
 				}
 			}
@@ -115,24 +95,3 @@ def agg_multi_match_and_sort_q(query, sort_num, fields=['title','song_lyrics'], 
 	}
 	q = json.dumps(q)
 	return q
-
-
-# "Price Filter": {
-# 	"range": {
-# 		"field": "price",
-# 		"ranges": [
-# 			{
-# 				"from": 0,
-# 				"to": 1000
-# 			},
-# 			{
-# 				"from": 1000,
-# 				"to": 2000
-# 			},
-# 			{
-# 				"from": 2000,
-# 				"to": 3000
-# 			}
-# 		]
-# 	}
-# }
