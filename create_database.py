@@ -96,6 +96,6 @@ def genData(song_array):
 
 
 # createIndex()
-all_songs = read_all_songs()
-helpers.bulk(es,genData(all_songs))
+# all_songs = read_all_songs()
+# helpers.bulk(es,genData(all_songs))
 
