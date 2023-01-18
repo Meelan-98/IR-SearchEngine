@@ -12,7 +12,7 @@ es = Elasticsearch(
     http_auth=(config['ELASTIC']['user'], config['ELASTIC']['password'])
 )
 
-INDEX = 'sinhala-metaphors'
+INDEX = 'metaphorum-index'
 
 def boost(boost_array):
 
@@ -32,8 +32,9 @@ def boost(boost_array):
     
     return [term1,term2,term3,term4,term5,term6,term7,term8,term9,term10,term11,term12,term13]
 
-def search(phrase,search_type):
+def search(search_text,search_type):
 
+    phrase = search_text.strip()
     tokens = phrase.split()
 
     if (search_type == "anywhere"):

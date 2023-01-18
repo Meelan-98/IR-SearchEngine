@@ -11,7 +11,7 @@ es = Elasticsearch(
     http_auth=(config['ELASTIC']['user'], config['ELASTIC']['password'])
 )
 
-INDEX = 'sinhala-metaphors'
+INDEX = 'metaphorum-index'
 
 def createIndex():
     index = Index(INDEX,using=es)
@@ -72,8 +72,10 @@ def genData(song_array):
         sinhala_meta_two = song.get("Metaphor_02", None)
         sinhala_meta_two_meaning = song.get("Metaphor_02_meaning", None)
 
+        views = int(song.get("views", None))
+
         yield {
-            "_index": "sinhala-metaphors",
+            "_index": INDEX,
             "_source": {
                 "english_name": english_name,
                 "english_lyricist": english_lyricist,
@@ -87,12 +89,13 @@ def genData(song_array):
                 "sinhala_meta_one": sinhala_meta_one,
                 "sinhala_meta_one_meaning": sinhala_meta_one_meaning,
                 "sinhala_meta_two": sinhala_meta_two,
-                "sinhala_meta_two_meaning": sinhala_meta_two_meaning
+                "sinhala_meta_two_meaning": sinhala_meta_two_meaning,
+                "views": views
             },
         }
 
 
 # createIndex()
-# all_songs = read_all_songs()
-# helpers.bulk(es,genData(all_songs))
+all_songs = read_all_songs()
+helpers.bulk(es,genData(all_songs))
 

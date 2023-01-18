@@ -194,7 +194,7 @@ def multi_match(query, fields, operator ='or'):
                 "operator": operator,
                 #"minimum_should_match": 2, # How many terms must be included to match if the operator is or
                 "analyzer": "standard", # standard, simple, whitespace, stop, keyword, pattern, <language>, fingerprint
-                "fuzziness": 0, # The number of character edits (insert, delete, substitute) to get the required term
+                "fuzziness": "AUTO", # The number of character edits (insert, delete, substitute) to get the required term
                 "fuzzy_transpositions": True, # Allow character swaps
                 "lenient": False, # Avoid data type similarity requirement
                 "prefix_length": 0, 
