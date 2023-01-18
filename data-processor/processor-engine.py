@@ -21,4 +21,4 @@ def csv_to_json(csvFilePath, jsonFilePath):
 
 csvFilePath = r'Corpus.csv'
 jsonFilePath = r'data.json'
-csv_to_json("corpus-processor/Corpus.csv", jsonFilePath)
+csv_to_json("data-processor/Corpus.csv", jsonFilePath)
