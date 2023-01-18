@@ -128,9 +128,13 @@
 						<!-- <h2 class="lead">Please enter the search query in the box</strong></h2> -->
 					</hgroup>
 					{% else %}
-					<hgroup class="mb20">
-						<h1>Search Results</h1>
-						<h2 class="lead"><strong class="text-danger">0</strong> results were found for the search for <strong class="text-danger">{{  query  }}</strong></h2>
+					<hgroup class="mb20 justify-content-md-center">
+						<div class="w-100 d-flex justify-content-md-center">
+							<h1>Metaphorum Search Engine</h1>
+						</div>
+						<div class="w-100 d-flex justify-content-md-center">
+							<h2 class="lead"><strong class="text-danger">0</strong> results were found for the search for <strong class="text-danger">{{  query  }}</strong></h2>
+						</div>
 					</hgroup>
 					{% endif %}
 				</div>
