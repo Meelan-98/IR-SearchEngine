@@ -1,6 +1,4 @@
 from elasticsearch import Elasticsearch, helpers
-from elasticsearch_dsl import Index
-import json
 import configparser
 import queries
 import booster
@@ -14,8 +12,6 @@ es = Elasticsearch(
 )
 
 INDEX = 'sinhala-metaphors'
-
-
 
 def boost(boost_array):
 
@@ -52,10 +48,8 @@ def search(phrase):
     
     if counted_list == False:     # If the query contain a number call sort query
         query_body = queries.fuzzy_multi_match(phrase, fields)
-        print('Making Faceted Query')
     else:
         query_body = queries.sorted_fuzzy_multi_match(phrase, num, fields)
-        print('Making Range Query')
 
     res = es.search(index=INDEX, body=query_body) # Calling the elastic search client with the corresponding query body
 
