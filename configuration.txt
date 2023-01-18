@@ -1,3 +1,14 @@
 To start the virtual environment: source env/bin/activate
 
 To freeze the requirements  pip freeze > requirements.txt
+
+Start Kibana
+    > docker pull docker.elastic.co/kibana/kibana:8.5.3
+    > docker run --name kib-01 --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.5.3
+
+Start Elastisearch
+    > docker network create elastic
+    > docker run --name es01 --net elastic -p 9200:9200 -it docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+
+Sending Curl command
+    > curl --cacert http_ca.crt -u elastic https://localhost:9200
