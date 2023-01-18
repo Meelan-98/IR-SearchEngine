@@ -61,7 +61,10 @@ def search(phrase,search_type):
             query_body = queries.single_phrase_match(phrase, "sinhala_name")
 
     elif (search_type == "metaphors_only"):
-        res = "Not Completed"
+        if (isEnglish(phrase)==False):
+            query_body = queries.multi_match(phrase, ["sinhala_meta_one","sinhala_meta_two"])
+        else:
+            return("Cannot search metaphors in english")
 
     res = es.search(index=INDEX, body=query_body) # Calling the elastic search client with the corresponding query body
     return res
