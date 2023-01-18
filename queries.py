@@ -38,15 +38,25 @@ def single_phrase_match(query,field):
 		q = json.dumps(q)
 		return q
 
-def single_field_match(query,field01,field02):
+def single_field_full_match(query,field):
+		operator = 'and'
 		q = {
 			"size": 200,
 			"explain": True,
 			"query": {
 				"match": {
-					field01: {
+					field: {
 						"query" : query,
 						"analyzer": "standard", # standard, simple, whitespace, stop, keyword, pattern, <language>, fingerprint
+						"operator": operator,
+						"analyzer": "standard", # standard, simple, whitespace, stop, keyword, pattern, <language>, fingerprint
+						"fuzziness": "AUTO", # The number of character edits (insert, delete, substitute) to get the required term
+						"fuzzy_transpositions": True, # Allow character swaps
+						"lenient": False, # Avoid data type similarity requirement
+						"prefix_length": 0, 
+						"max_expansions": 50,
+						"auto_generate_synonyms_phrase_query": True,
+						"zero_terms_query": "none"
 					}
 				}
 			},

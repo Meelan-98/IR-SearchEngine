@@ -9,7 +9,7 @@ def search_box():
 
         query = request.form['searchTerm']
 
-        res = search(query,query_type_resolver([False,True,False]))
+        res = search(query,query_type_resolver([False,False,True,False]))
 
         hits = res['hits']['hits']
         aggs = res['aggregations']

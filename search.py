@@ -65,6 +65,12 @@ def search(phrase,search_type):
             query_body = queries.multi_match(phrase, ["sinhala_meta_one","sinhala_meta_two"])
         else:
             return("Cannot search metaphors in english")
+    
+    elif (search_type == "composers_only"):
+        if (isEnglish(phrase)==True):
+            query_body = queries.single_field_full_match(phrase,"english_composer")
+        else:
+            query_body = queries.single_field_full_match(phrase,"sinhala_composer")
 
     res = es.search(index=INDEX, body=query_body) # Calling the elastic search client with the corresponding query body
     return res
