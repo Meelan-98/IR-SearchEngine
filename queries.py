@@ -1,9 +1,48 @@
 import json
 
 
+def single_phrase_match(query,field):
+		q = {
+			"size": 200,
+			"explain": True,
+			"query": {
+				"match_phrase": {
+					field: {
+						"query" : query,
+						"analyzer": "standard", # standard, simple, whitespace, stop, keyword, pattern, <language>, fingerprint
+					}
+				}
+			},
+			"aggs": {
+				"Singer Filter": {
+					"terms": {
+						"field": "sinhala_singer.keyword",
+						"size": 10
+					}
+				},
+				"Composer Filter": {
+					"terms": {
+						"field": "sinhala_composer.keyword",
+						"size": 10
+					}
+				},
+				"Lyricist Filter": {
+					"terms": {
+						"field": "sinhala_lyricist.keyword",
+						"size": 10
+					}
+				}
+			}
+		}
+
+		q = json.dumps(q)
+		return q
+
+
+
 def fuzzy_multi_match(query, fields, operator ='or'):
 	q = {
-		"size": 500,
+		"size": 200,
 		"explain": True,
 		"query": {
 			"multi_match": {
