@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request
 from search import search
-from type_resolver import query_type_resolver
 app = Flask(__name__)
 
 @app.route('/', methods=['POST','GET'])
@@ -8,8 +7,9 @@ def search_box():
     if request.method == 'POST':
 
         query = request.form['searchTerm']
+        type_of_query = request.form['typequeery']
 
-        res = search(query,query_type_resolver([False,False,True,False]))
+        res = search(query,type_of_query)
 
         hits = res['hits']['hits']
         aggs = res['aggregations']
